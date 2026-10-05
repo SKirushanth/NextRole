@@ -71,7 +71,10 @@ def update_application(
     current_user: User = Depends(get_current_user),
 ):
     application = _get_owned_or_404(db, current_user, application_id)
-    for field, value in payload.model_dump(exclude_unset=True).items():
+    changes = payload.model_dump(exclude_unset=True)
+    if "interview_date" in changes:
+        application.reminder_sent = False  # rescheduled, so remind again
+    for field, value in changes.items():
         setattr(application, field, value)
     db.commit()
     db.refresh(application)
