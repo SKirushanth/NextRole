@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from datetime import datetime
 from .models import ApplicationStatus
@@ -8,7 +8,8 @@ class UserBase(BaseModel):
     email: EmailStr
 
 class UserCreate(UserBase):
-    password: str
+    # bcrypt only uses the first 72 bytes, so cap the length
+    password: str = Field(min_length=8, max_length=72)
 
 class UserResponse(UserBase):
     id: int
@@ -16,6 +17,10 @@ class UserResponse(UserBase):
 
     class Config:
         from_attributes = True
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
 
 # --- Application Schemas ---
 class ApplicationBase(BaseModel):
