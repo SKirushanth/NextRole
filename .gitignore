@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.coverage
+
+# Test database created by the tests
+test.db
+*.db
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# Frontend (for later)
+node_modules/
+dist/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
