@@ -29,6 +29,7 @@ class ApplicationBase(BaseModel):
     job_url: Optional[str] = None
     notes: Optional[str] = None
     status: Optional[ApplicationStatus] = ApplicationStatus.APPLIED
+    interview_date: Optional[datetime] = None
 
 class ApplicationCreate(ApplicationBase):
     pass
@@ -39,6 +40,7 @@ class ApplicationUpdate(BaseModel):
     job_url: Optional[str] = None
     notes: Optional[str] = None
     status: Optional[ApplicationStatus] = None
+    interview_date: Optional[datetime] = None
 
 class ApplicationResponse(ApplicationBase):
     id: int
