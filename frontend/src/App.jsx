@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { api, clearToken, getToken } from "./api.js";
 import Login from "./Login.jsx";
+import Board from "./Board.jsx";
 
-// Step 2 version: auth gate only. The board is added in the next branch.
 export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(Boolean(getToken()));
@@ -43,7 +43,7 @@ export default function App() {
           </button>
         </div>
       </header>
-      <p className="muted">You are signed in. The applications board comes next.</p>
+      <Board />
     </div>
   );
 }
