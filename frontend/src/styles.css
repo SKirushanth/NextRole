@@ -84,17 +84,95 @@ button.danger { background: var(--danger); border-color: var(--danger); }
   grid-template-columns: repeat(4, minmax(220px, 1fr));
   gap: 0.9rem;
   overflow-x: auto;
+  align-items: stretch;
 }
-.column h3 { font-size: 0.95rem; }
+.column {
+  background: color-mix(in srgb, var(--border) 35%, transparent);
+  border: 2px dashed transparent;
+  border-radius: 12px;
+  padding: 0.75rem;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.column.drag-over {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.column-header {
+  margin-bottom: 0.5rem;
+}
+.column h3 {
+  font-size: 0.95rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.column-items {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.column-empty {
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 1.5rem 0.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.column.drag-over .column-empty {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 .item {
   margin-bottom: 0.6rem;
-  cursor: pointer;
+  cursor: grab;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  user-select: none;
+  transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
-.item select { margin-top: 0.4rem; font-size: 0.85rem; }
-.item:hover { border-color: var(--accent); }
+.item:active {
+  cursor: grabbing;
+}
+.item.dragging {
+  opacity: 0.35;
+  border: 1px dashed var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+.item:hover {
+  border-color: var(--accent);
+}
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.drag-handle {
+  color: var(--muted);
+  opacity: 0.4;
+  font-size: 0.9rem;
+  line-height: 1;
+  user-select: none;
+  cursor: grab;
+  letter-spacing: -1px;
+}
+.item:hover .drag-handle {
+  opacity: 1;
+}
+.item select {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: auto;
+}
 .badge {
   display: inline-block;
   background: var(--border);
