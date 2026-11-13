@@ -66,3 +66,4 @@ export const api = {
     request(`/applications/${id}`, { method: "PATCH", body: data }),
   deleteApplication: (id) => request(`/applications/${id}`, { method: "DELETE" }),
 };
+

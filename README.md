@@ -40,6 +40,17 @@ docker compose up --build
 
 Stop with `Ctrl+C`, or `docker compose down`. Add `-v` to also delete the database.
 
+For frontend development with instant source updates, run this in a second terminal:
+
+```bash
+docker compose watch web
+```
+
+The development container bind-mounts `frontend`, runs Vite with hot reload, and
+syncs source changes without rebuilding the image. Dependency and Dockerfile
+changes still rebuild the development image. Refresh `http://localhost:8080` if
+the browser does not update automatically.
+
 ## Develop without rebuilding images
 
 Run only the infrastructure in Docker and the code locally:
