@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
 import { formatDate } from "../lib/dates";
+import StatusDropdown from "../components/StatusDropdown";
 import {
   ArrowUpRight,
   Briefcase,
@@ -453,19 +454,14 @@ export default function DashboardHome({ user, onNavigateToApps }: DashboardHomeP
                 placeholder="Job role"
               />
               <div className="flex items-center gap-2 pt-0.5">
-                <select
-                  value={quickStatus}
-                  onChange={(event) =>
-                    setQuickStatus(event.target.value as ApplicationStatus)
-                  }
-                  className="flex-1 px-2.5 py-1.5 text-xs rounded-lg bg-zinc-50 border border-black/[0.08] text-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
-                >
-                  {STATUS_ORDER.map((status) => (
-                    <option key={status} value={status}>
-                      {LABELS[status]}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex-1">
+                  <StatusDropdown
+                    value={quickStatus}
+                    onChange={setQuickStatus}
+                    theme="light"
+                    dropUp
+                  />
+                </div>
                 <button
                   type="submit"
                   disabled={quickSaving}

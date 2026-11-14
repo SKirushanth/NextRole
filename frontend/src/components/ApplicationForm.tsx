@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { api } from "../lib/api";
+import StatusDropdown from "./StatusDropdown";
 import { Building2, Briefcase, Link, Calendar, Plus, Loader2 } from "lucide-react";
 import type { ApplicationCreate, ApplicationStatus } from "../types";
 
@@ -128,19 +129,13 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
         {/* Status Select */}
         <div className="space-y-1.5">
           <label className="text-xs font-medium text-[#888888]">Status</label>
-          <div className="relative group">
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#9D4EDD] focus:ring-1 focus:ring-[#9D4EDD] transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#9D4EDD]/20 cursor-pointer"
-            >
-              <option value="APPLIED">APPLIED</option>
-              <option value="INTERVIEWING">INTERVIEWING</option>
-              <option value="OFFER">OFFER</option>
-              <option value="REJECTED">REJECTED</option>
-            </select>
-          </div>
+          <StatusDropdown
+            value={formData.status}
+            onChange={(newStatus) =>
+              setFormData((prev) => ({ ...prev, status: newStatus }))
+            }
+            theme="dark"
+          />
         </div>
 
         {/* Interview Date Input */}

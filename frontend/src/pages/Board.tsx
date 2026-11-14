@@ -4,12 +4,12 @@ import { formatDate } from "../lib/dates";
 import ApplicationForm from "../components/ApplicationForm";
 import ApplicationDetail from "../components/ApplicationDetail";
 import SpecularButton from "../components/SpecularButton";
+import StatusDropdown from "../components/StatusDropdown";
 import {
   Search,
   Plus,
   ExternalLink,
   Calendar,
-  ChevronDown,
   Building2,
   X,
   Loader2,
@@ -389,26 +389,12 @@ export default function Board() {
                         </div>
 
                         {/* Quick Status Dropdown */}
-                        <div className="relative pt-1 border-t border-[#1C1C1C]">
-                          <select
+                        <div className="pt-1 border-t border-[#1C1C1C]">
+                          <StatusDropdown
                             value={a.status}
-                            aria-label={`Move ${a.company_name}`}
-                            draggable={false}
-                            onDragStart={(e) => {
-                              e.stopPropagation();
-                              e.preventDefault();
-                            }}
-                            onClick={(e) => e.stopPropagation()}
-                            onChange={(e) => move(a, e.target.value as ApplicationStatus)}
-                            className="w-full bg-[#181818] border border-[#262626] rounded-lg px-2.5 py-1.5 text-xs font-medium text-[#A3A3A3] hover:text-[#FFFFFF] appearance-none focus:outline-none focus:border-[#A855F7] transition-all cursor-pointer"
-                          >
-                            {STATUSES.map((s) => (
-                              <option key={s} value={s}>
-                                {LABELS[s] || s}
-                              </option>
-                            ))}
-                          </select>
-                          <ChevronDown className="w-3 h-3 text-[#737373] absolute right-2.5 top-[calc(50%+2px)] -translate-y-1/2 pointer-events-none" />
+                            onChange={(newStatus) => move(a, newStatus)}
+                            theme="dark"
+                          />
                         </div>
                       </article>
                     );

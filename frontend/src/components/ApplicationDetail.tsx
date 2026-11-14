@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { api, STATUSES } from "../lib/api";
+import { api } from "../lib/api";
 import { fromLocalInput, toLocalInput } from "../lib/dates";
+import StatusDropdown from "./StatusDropdown";
 import {
   X,
   ExternalLink,
@@ -10,7 +11,6 @@ import {
   Save,
   Loader2,
   FileText,
-  ChevronDown,
 } from "lucide-react";
 import type { ApplicationResponse, ApplicationStatus, ApplicationUpdate } from "../types";
 
@@ -115,20 +115,11 @@ export default function ApplicationDetail({
           {/* Status Selection */}
           <div className="space-y-1.5">
             <label className="text-xs font-medium text-[#888888]">Status</label>
-            <div className="relative">
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value as ApplicationStatus)}
-                className="w-full bg-[#161616] border border-[#262626] rounded-lg px-3 py-2 text-xs text-[#FFFFFF] appearance-none focus:outline-none focus:border-[#444444] transition-colors cursor-pointer"
-              >
-                {STATUSES.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-[#888888] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-            </div>
+            <StatusDropdown
+              value={status}
+              onChange={setStatus}
+              theme="dark"
+            />
           </div>
 
           {/* Interview Date & Reminder Info */}
