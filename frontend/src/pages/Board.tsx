@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { api, STATUSES } from "../lib/api.js";
-import { formatDate } from "../lib/dates.js";
-import ApplicationForm from "../components/ApplicationForm.jsx";
-import ApplicationDetail from "../components/ApplicationDetail.jsx";
-import SpecularButton from "../components/SpecularButton.jsx";
+import { api, STATUSES } from "../lib/api";
+import { formatDate } from "../lib/dates";
+import ApplicationForm from "../components/ApplicationForm";
+import ApplicationDetail from "../components/ApplicationDetail";
+import SpecularButton from "../components/SpecularButton";
 import {
   Search,
   Plus,
@@ -13,17 +13,25 @@ import {
   Building2,
   X,
   Loader2,
-  GripVertical
+  GripVertical,
 } from "lucide-react";
+import type { ApplicationResponse, ApplicationStatus } from "../types";
 
-const LABELS = {
+const LABELS: Record<ApplicationStatus, string> = {
   APPLIED: "Applied",
   INTERVIEWING: "Interviewing",
   OFFER: "Offer",
   REJECTED: "Rejected",
 };
 
-const METRIC_THEMES = {
+interface MetricTheme {
+  color: string;
+  bgAlpha: string;
+  borderAlpha: string;
+  glow: string;
+}
+
+const METRIC_THEMES: Record<ApplicationStatus, MetricTheme> = {
   APPLIED: {
     color: "#0284c7",
     bgAlpha: "rgba(14, 165, 233, 0.10)",
@@ -51,22 +59,22 @@ const METRIC_THEMES = {
 };
 
 export default function Board() {
-  const [apps, setApps] = useState([]);
-  const [search, setSearch] = useState("");
-  const [showForm, setShowForm] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [draggedApp, setDraggedApp] = useState(null);
-  const [dragOverColumn, setDragOverColumn] = useState(null);
-  const isDraggingRef = useRef(false);
+  const [apps, setApps] = useState<ApplicationResponse[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [showForm, setShowForm] = useState<boolean>(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
+  const [draggedApp, setDraggedApp] = useState<ApplicationResponse | null>(null);
+  const [dragOverColumn, setDragOverColumn] = useState<ApplicationStatus | null>(null);
+  const isDraggingRef = useRef<boolean>(false);
 
   const load = useCallback(async () => {
     try {
       setApps(await api.listApplications({ q: search.trim() || undefined }));
       setError("");
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to load applications");
     } finally {
       setLoading(false);
     }
@@ -77,7 +85,7 @@ export default function Board() {
     return () => clearTimeout(t);
   }, [load]);
 
-  async function move(app, status) {
+  async function move(app: ApplicationResponse, status: ApplicationStatus) {
     if (app.status === status) return;
     setApps((current) =>
       current.map((a) => (a.id === app.id ? { ...a, status } : a))
@@ -85,13 +93,13 @@ export default function Board() {
     try {
       await api.updateApplication(app.id, { status });
       load();
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to update status");
       load();
     }
   }
 
-  function handleDragStart(e, app) {
+  function handleDragStart(e: React.DragEvent, app: ApplicationResponse) {
     isDraggingRef.current = true;
     setDraggedApp(app);
     e.dataTransfer.setData("text/plain", String(app.id));
@@ -106,7 +114,7 @@ export default function Board() {
     }, 100);
   }
 
-  function handleDragOver(e, status) {
+  function handleDragOver(e: React.DragEvent, status: ApplicationStatus) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
     if (dragOverColumn !== status) {
@@ -114,22 +122,22 @@ export default function Board() {
     }
   }
 
-  function handleDragLeave(e, status) {
-    if (!e.currentTarget.contains(e.relatedTarget)) {
+  function handleDragLeave(e: React.DragEvent<HTMLElement>, status: ApplicationStatus) {
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
       if (dragOverColumn === status) {
         setDragOverColumn(null);
       }
     }
   }
 
-  function handleDrop(e, status) {
+  function handleDrop(e: React.DragEvent, status: ApplicationStatus) {
     e.preventDefault();
     setDragOverColumn(null);
     let appToMove = draggedApp;
     if (!appToMove) {
       const idStr = e.dataTransfer.getData("text/plain");
       if (idStr) {
-        appToMove = apps.find((a) => String(a.id) === idStr);
+        appToMove = apps.find((a) => String(a.id) === idStr) || null;
       }
     }
     if (appToMove && appToMove.status !== status) {
@@ -138,7 +146,7 @@ export default function Board() {
     setDraggedApp(null);
   }
 
-  function handleCardClick(appId) {
+  function handleCardClick(appId: number) {
     if (isDraggingRef.current) return;
     setSelectedId(appId);
   }
@@ -265,7 +273,7 @@ export default function Board() {
         <div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5"
           onDragLeave={(e) => {
-            if (!e.currentTarget.contains(e.relatedTarget)) {
+            if (!e.currentTarget.contains(e.relatedTarget as Node)) {
               setDragOverColumn(null);
             }
           }}
@@ -330,7 +338,10 @@ export default function Board() {
                             <div className="p-1.5 bg-[#1C1C1C] rounded-md border border-[#2A2A2A] text-[#A3A3A3] shrink-0">
                               <Building2 className="w-3.5 h-3.5" />
                             </div>
-                            <span className="truncate tracking-tight block w-full min-w-0" title={a.company_name}>
+                            <span
+                              className="truncate tracking-tight block w-full min-w-0"
+                              title={a.company_name}
+                            >
                               {a.company_name}
                             </span>
                           </div>
@@ -338,7 +349,10 @@ export default function Board() {
                         </div>
 
                         {/* Job Title */}
-                        <p className="text-xs text-[#A3A3A3] font-medium truncate leading-tight pl-0.5 block w-full min-w-0" title={a.job_title}>
+                        <p
+                          className="text-xs text-[#A3A3A3] font-medium truncate leading-tight pl-0.5 block w-full min-w-0"
+                          title={a.job_title}
+                        >
                           {a.job_title}
                         </p>
 
@@ -385,7 +399,7 @@ export default function Board() {
                               e.preventDefault();
                             }}
                             onClick={(e) => e.stopPropagation()}
-                            onChange={(e) => move(a, e.target.value)}
+                            onChange={(e) => move(a, e.target.value as ApplicationStatus)}
                             className="w-full bg-[#181818] border border-[#262626] rounded-lg px-2.5 py-1.5 text-xs font-medium text-[#A3A3A3] hover:text-[#FFFFFF] appearance-none focus:outline-none focus:border-[#A855F7] transition-all cursor-pointer"
                           >
                             {STATUSES.map((s) => (
@@ -425,4 +439,3 @@ export default function Board() {
     </div>
   );
 }
-

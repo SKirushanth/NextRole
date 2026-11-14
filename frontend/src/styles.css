@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 :root {
   color: #172033;
   background: #f6f8fb;
@@ -67,8 +66,7 @@ textarea {
   background-color: #eef2ff !important;
 }
 
-[class*="text-[#FFFFFF]"],
-[class*="text-white"] {
+[class*="text-[#FFFFFF]"] {
   color: #172033 !important;
 }
 

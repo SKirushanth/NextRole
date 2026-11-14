@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { api, clearToken, getToken } from "./lib/api.js";
-import Login from "./pages/Login.jsx";
-import Board from "./pages/Board.jsx";
-import DashboardHome from "./pages/DashboardHome.jsx";
-import Sidebar from "./components/Sidebar.jsx";
+import { api, clearToken, getToken } from "./lib/api";
+import Login from "./pages/Login";
+import Board from "./pages/Board";
+import DashboardHome from "./pages/DashboardHome";
+import Sidebar from "./components/Sidebar";
 import { Loader2 } from "lucide-react";
+import type { UserResponse } from "./types";
 
 export default function App() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(Boolean(getToken()));
-  const [activeTab, setActiveTab] = useState("Dashboard");
+  const [user, setUser] = useState<UserResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(Boolean(getToken()));
+  const [activeTab, setActiveTab] = useState<"Dashboard" | "Applications">("Dashboard");
 
   // Restore the session if a token is stored
   useEffect(() => {

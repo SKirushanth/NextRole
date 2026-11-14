@@ -1,10 +1,12 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 const SIZES = {
-  sm: 'px-4 py-2 text-xs',
-  md: 'px-5 py-2.5 text-sm',
-  lg: 'px-6 py-3 text-sm'
-};
+  sm: "px-4 py-2 text-xs",
+  md: "px-5 py-2.5 text-sm",
+  lg: "px-6 py-3 text-sm",
+} as const;
+
+type ButtonSize = keyof typeof SIZES;
 
 const VERTEX = `#version 300 es
 in vec2 aPosition;
@@ -58,62 +60,88 @@ void main() {
   outColor = vec4(uLineColor, 1.0) * light + base * (1.0 - light);
 }`;
 
-const UNIFORMS = ['uCenter', 'uHalf', 'uRadius', 'uPx', 'uSpot', 'uEntry', 'uLineColor', 'uBaseColor', 'uIntensity', 'uWindow', 'uThickness', 'uGlow'];
-const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
-const wrap = v => v - Math.floor(v);
+const UNIFORMS = [
+  "uCenter",
+  "uHalf",
+  "uRadius",
+  "uPx",
+  "uSpot",
+  "uEntry",
+  "uLineColor",
+  "uBaseColor",
+  "uIntensity",
+  "uWindow",
+  "uThickness",
+  "uGlow",
+] as const;
 
-const loopPositionJS = (x, y, halfX, halfY, r) => {
-  const innerX = halfX - r; const innerY = halfY - r;
-  const arc = (Math.PI / 2) * r; const quarter = innerX + innerY + arc;
-  const ax = Math.abs(x); const ay = Math.abs(y);
-  const qx = ax - innerX; const qy = ay - innerY;
-  let s = (qx > 0 && qy > 0) ? innerY + Math.atan2(qy, qx) * r : (qx > qy ? Math.min(ay, innerY) : innerY + arc + innerX - Math.min(ax, innerX));
-  if (x < 0) s = y >= 0 ? 2 * quarter - s : 2 * quarter + s;
-  else if (y < 0) s = 4 * quarter - s;
-  return wrap(s / Math.max(4 * quarter, 0.0001));
-};
+export interface SpecularButtonProps {
+  children?: React.ReactNode;
+  size?: ButtonSize;
+  radius?: number;
+  tint?: string;
+  tintOpacity?: number;
+  textColor?: string;
+  lineColor?: string;
+  baseColor?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  className?: string;
+}
 
 export default function SpecularButton({
   children,
-  size = 'md',
+  size = "md",
   radius = 10,
-  tint = '#ffffff',
-  tintOpacity = 0.98,
-  textColor = '#000000',
-  lineColor = '#ffffff',
-  baseColor = '#404040',
+  tint = "#ffffff",
+  textColor = "#000000",
   onClick,
-  className = ''
-}) {
-  const buttonRef = useRef(null);
-  const canvasRef = useRef(null);
+  className = "",
+}: SpecularButtonProps) {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const button = buttonRef.current;
     const canvas = canvasRef.current;
-    const gl = canvas?.getContext('webgl2', { alpha: true });
-    if (!button || !canvas || !gl) return;
+    if (!button || !canvas) return;
 
-    const compile = (type, src) => {
-      const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s;
+    const gl = canvas.getContext("webgl2", { alpha: true });
+    if (!gl) return;
+
+    const compile = (type: number, src: string): WebGLShader | null => {
+      const s = gl.createShader(type);
+      if (!s) return null;
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      return s;
     };
+
+    const vertShader = compile(gl.VERTEX_SHADER, VERTEX);
+    const fragShader = compile(gl.FRAGMENT_SHADER, FRAGMENT);
+    if (!vertShader || !fragShader) return;
+
     const program = gl.createProgram();
-    gl.attachShader(program, compile(gl.VERTEX_SHADER, VERTEX));
-    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAGMENT));
+    if (!program) return;
+
+    gl.attachShader(program, vertShader);
+    gl.attachShader(program, fragShader);
     gl.linkProgram(program);
 
-    const uniforms = {};
-    UNIFORMS.forEach(u => (uniforms[u] = gl.getUniformLocation(program, u)));
+    const uniforms: Record<string, WebGLUniformLocation | null> = {};
+    UNIFORMS.forEach((u) => {
+      uniforms[u] = gl.getUniformLocation(program, u);
+    });
 
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
 
-    let spot = 0;
+    const spot = 0;
     const draw = () => {
       const w = button.offsetWidth;
       const h = button.offsetHeight;
-      canvas.width = w * 2; canvas.height = h * 2;
+      canvas.width = w * 2;
+      canvas.height = h * 2;
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.useProgram(program);
       gl.uniform2f(uniforms.uCenter, canvas.width / 2, canvas.height / 2);
@@ -142,12 +170,14 @@ export default function SpecularButton({
       style={{
         borderRadius: `${radius}px`,
         backgroundColor: tint,
-        color: textColor
+        color: textColor,
       }}
     >
-      <canvas ref={canvasRef} className="pointer-events-none absolute -inset-2 z-[1] h-[calc(100%+16px)] w-[calc(100%+16px)]" />
+      <canvas
+        ref={canvasRef}
+        className="pointer-events-none absolute -inset-2 z-[1] h-[calc(100%+16px)] w-[calc(100%+16px)]"
+      />
       <span className="relative z-[2] flex items-center gap-2">{children}</span>
     </button>
   );
 }
-

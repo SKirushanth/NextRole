@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { api, STATUSES } from "../lib/api.js";
-import { fromLocalInput, toLocalInput } from "../lib/dates.js";
+import { api, STATUSES } from "../lib/api";
+import { fromLocalInput, toLocalInput } from "../lib/dates";
 import {
   X,
   ExternalLink,
@@ -10,21 +10,32 @@ import {
   Save,
   Loader2,
   FileText,
-  ChevronDown
+  ChevronDown,
 } from "lucide-react";
+import type { ApplicationResponse, ApplicationStatus, ApplicationUpdate } from "../types";
 
-export default function ApplicationDetail({ application, onClose, onChanged }) {
+export interface ApplicationDetailProps {
+  application: ApplicationResponse;
+  onClose: () => void;
+  onChanged: () => void;
+}
+
+export default function ApplicationDetail({
+  application,
+  onClose,
+  onChanged,
+}: ApplicationDetailProps) {
   const original = {
     status: application.status,
     notes: application.notes || "",
     interviewDate: toLocalInput(application.interview_date),
   };
 
-  const [status, setStatus] = useState(original.status);
-  const [notes, setNotes] = useState(original.notes);
-  const [interviewDate, setInterviewDate] = useState(original.interviewDate);
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [status, setStatus] = useState<ApplicationStatus>(original.status);
+  const [notes, setNotes] = useState<string>(original.notes);
+  const [interviewDate, setInterviewDate] = useState<string>(original.interviewDate);
+  const [error, setError] = useState<string>("");
+  const [busy, setBusy] = useState<boolean>(false);
 
   const dirty =
     status !== original.status ||
@@ -32,7 +43,7 @@ export default function ApplicationDetail({ application, onClose, onChanged }) {
     interviewDate !== original.interviewDate;
 
   async function save() {
-    const changes = {};
+    const changes: ApplicationUpdate = {};
     if (status !== original.status) changes.status = status;
     if (notes !== original.notes) changes.notes = notes;
     if (interviewDate !== original.interviewDate) {
@@ -43,8 +54,8 @@ export default function ApplicationDetail({ application, onClose, onChanged }) {
     try {
       await api.updateApplication(application.id, changes);
       onChanged();
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to update application");
     } finally {
       setBusy(false);
     }
@@ -56,8 +67,8 @@ export default function ApplicationDetail({ application, onClose, onChanged }) {
       await api.deleteApplication(application.id);
       onChanged();
       onClose();
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to delete application");
     }
   }
 
@@ -91,7 +102,7 @@ export default function ApplicationDetail({ application, onClose, onChanged }) {
           {/* Job Posting Link */}
           {(application.job_url || application.url) && (
             <a
-              href={application.job_url || application.url}
+              href={(application.job_url || application.url) ?? undefined}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 text-xs text-[#60A5FA] hover:text-[#93C5FD] transition-colors bg-[#60A5FA]/10 border border-[#60A5FA]/20 px-3 py-1.5 rounded-lg w-fit"
@@ -107,7 +118,7 @@ export default function ApplicationDetail({ application, onClose, onChanged }) {
             <div className="relative">
               <select
                 value={status}
-                onChange={(e) => setStatus(e.target.value)}
+                onChange={(e) => setStatus(e.target.value as ApplicationStatus)}
                 className="w-full bg-[#161616] border border-[#262626] rounded-lg px-3 py-2 text-xs text-[#FFFFFF] appearance-none focus:outline-none focus:border-[#444444] transition-colors cursor-pointer"
               >
                 {STATUSES.map((s) => (
@@ -198,4 +209,3 @@ export default function ApplicationDetail({ application, onClose, onChanged }) {
     </div>
   );
 }
-

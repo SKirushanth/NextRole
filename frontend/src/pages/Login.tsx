@@ -1,16 +1,21 @@
 import { useState } from "react";
-import { api, setToken } from "../lib/api.js";
-import StrokeText from "../components/StrokeText.jsx";
+import { api, setToken } from "../lib/api";
+import StrokeText from "../components/StrokeText";
 import { Lock, Mail, ArrowRight, Loader2 } from "lucide-react";
+import type { UserResponse } from "../types";
 
-export default function Login({ onLoggedIn }) {
-  const [mode, setMode] = useState("login");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
+export interface LoginProps {
+  onLoggedIn: (user: UserResponse) => void;
+}
 
-  async function submit(e) {
+export default function Login({ onLoggedIn }: LoginProps) {
+  const [mode, setMode] = useState<"login" | "register">("login");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [busy, setBusy] = useState<boolean>(false);
+
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
     setBusy(true);
@@ -19,8 +24,8 @@ export default function Login({ onLoggedIn }) {
       const { access_token } = await api.login(email, password);
       setToken(access_token);
       onLoggedIn(await api.me());
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Authentication failed");
     } finally {
       setBusy(false);
     }
@@ -58,7 +63,7 @@ export default function Login({ onLoggedIn }) {
                 border: "none",
                 boxShadow: "none",
                 color: mode === "login" ? "#FFFFFF" : "#888888",
-                borderBottom: mode === "login" ? "2px solid #FFFFFF" : "2px solid transparent"
+                borderBottom: mode === "login" ? "2px solid #FFFFFF" : "2px solid transparent",
               }}
               className="flex-1 pb-3 text-xs font-semibold text-center transition-colors cursor-pointer hover:text-[#FFFFFF]"
             >
@@ -75,7 +80,7 @@ export default function Login({ onLoggedIn }) {
                 border: "none",
                 boxShadow: "none",
                 color: mode === "register" ? "#FFFFFF" : "#888888",
-                borderBottom: mode === "register" ? "2px solid #FFFFFF" : "2px solid transparent"
+                borderBottom: mode === "register" ? "2px solid #FFFFFF" : "2px solid transparent",
               }}
               className="flex-1 pb-3 text-xs font-semibold text-center transition-colors cursor-pointer hover:text-[#FFFFFF]"
             >
@@ -137,7 +142,7 @@ export default function Login({ onLoggedIn }) {
               style={{
                 backgroundColor: "#2F6FED",
                 color: "#FFFFFF",
-                border: "none"
+                border: "none",
               }}
               className="w-full mt-2 hover:bg-[#2558C7] font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg shadow-[#2F6FED]/20 disabled:opacity-50"
             >
@@ -165,7 +170,7 @@ export default function Login({ onLoggedIn }) {
                 border: "none",
                 boxShadow: "none",
                 padding: 0,
-                color: "#A3A3A3"
+                color: "#A3A3A3",
               }}
               className="text-xs hover:text-[#FFFFFF] transition-colors cursor-pointer font-medium"
             >
@@ -179,4 +184,3 @@ export default function Login({ onLoggedIn }) {
     </div>
   );
 }
-

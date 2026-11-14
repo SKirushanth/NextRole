@@ -1,30 +1,44 @@
 import { useState } from "react";
-import { api } from "../lib/api.js";
+import { api } from "../lib/api";
 import { Building2, Briefcase, Link, Calendar, Plus, Loader2 } from "lucide-react";
+import type { ApplicationCreate, ApplicationStatus } from "../types";
 
-export default function ApplicationForm({ onCreated, onSubmit }) {
-  const [formData, setFormData] = useState({
+export interface ApplicationFormProps {
+  onCreated?: () => void;
+  onSubmit?: (payload: ApplicationCreate) => void;
+}
+
+interface FormState {
+  company_name: string;
+  job_title: string;
+  job_url: string;
+  status: ApplicationStatus;
+  interview_date: string;
+}
+
+export default function ApplicationForm({ onCreated, onSubmit }: ApplicationFormProps) {
+  const [formData, setFormData] = useState<FormState>({
     company_name: "",
     job_title: "",
     job_url: "",
     status: "APPLIED",
     interview_date: "",
   });
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
+  const [busy, setBusy] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setBusy(true);
 
     try {
       // Map datetime string or pass null if empty
-      const payload = {
+      const payload: ApplicationCreate = {
         company_name: formData.company_name,
         job_title: formData.job_title,
         job_url: formData.job_url || null,
@@ -36,8 +50,9 @@ export default function ApplicationForm({ onCreated, onSubmit }) {
 
       if (onCreated) onCreated();
       if (onSubmit) onSubmit(payload);
-    } catch (err) {
-      setError(err.message || "Failed to create application");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Failed to create application";
+      setError(message);
     } finally {
       setBusy(false);
     }
@@ -138,7 +153,9 @@ export default function ApplicationForm({ onCreated, onSubmit }) {
               name="interview_date"
               value={formData.interview_date}
               onChange={handleChange}
-              onFocus={(e) => (e.target.type = "datetime-local")}
+              onFocus={(e) => {
+                e.target.type = "datetime-local";
+              }}
               onBlur={(e) => {
                 if (!e.target.value) e.target.type = "text";
               }}
@@ -170,4 +187,3 @@ export default function ApplicationForm({ onCreated, onSubmit }) {
     </div>
   );
 }
-
