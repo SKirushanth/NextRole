@@ -143,7 +143,7 @@ export default function ApplicationForm({ onCreated, onSubmit }) {
                 if (!e.target.value) e.target.type = "text";
               }}
               placeholder="Select date & time..."
-              style={{ paddingLeft: "2.5rem", colorScheme: "dark" }}
+              style={{ paddingLeft: "2.5rem", colorScheme: "light" }}
               className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg pr-3 py-2.5 text-sm text-white placeholder-[#555555] focus:outline-none focus:border-[#9D4EDD] focus:ring-1 focus:ring-[#9D4EDD] transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#9D4EDD]/20 cursor-pointer"
             />
           </div>

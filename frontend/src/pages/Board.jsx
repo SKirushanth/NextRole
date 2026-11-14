@@ -25,28 +25,28 @@ const LABELS = {
 
 const METRIC_THEMES = {
   APPLIED: {
-    color: "#22C55E",
-    bgAlpha: "rgba(34, 197, 94, 0.12)",
-    borderAlpha: "rgba(34, 197, 94, 0.25)",
-    glow: "rgba(34, 197, 94, 0.15)",
+    color: "#0284c7",
+    bgAlpha: "rgba(14, 165, 233, 0.10)",
+    borderAlpha: "rgba(14, 165, 233, 0.22)",
+    glow: "rgba(14, 165, 233, 0.10)",
   },
   INTERVIEWING: {
-    color: "#3B82F6",
-    bgAlpha: "rgba(59, 130, 246, 0.12)",
-    borderAlpha: "rgba(59, 130, 246, 0.25)",
-    glow: "rgba(59, 130, 246, 0.15)",
+    color: "#4f46e5",
+    bgAlpha: "rgba(99, 102, 241, 0.10)",
+    borderAlpha: "rgba(99, 102, 241, 0.22)",
+    glow: "rgba(99, 102, 241, 0.10)",
   },
   OFFER: {
-    color: "#A855F7",
-    bgAlpha: "rgba(168, 85, 247, 0.12)",
-    borderAlpha: "rgba(168, 85, 247, 0.25)",
-    glow: "rgba(168, 85, 247, 0.15)",
+    color: "#059669",
+    bgAlpha: "rgba(16, 185, 129, 0.10)",
+    borderAlpha: "rgba(16, 185, 129, 0.22)",
+    glow: "rgba(16, 185, 129, 0.10)",
   },
   REJECTED: {
-    color: "#EF4444",
-    bgAlpha: "rgba(239, 68, 68, 0.12)",
-    borderAlpha: "rgba(239, 68, 68, 0.25)",
-    glow: "rgba(239, 68, 68, 0.15)",
+    color: "#e11d48",
+    bgAlpha: "rgba(244, 63, 94, 0.10)",
+    borderAlpha: "rgba(244, 63, 94, 0.22)",
+    glow: "rgba(244, 63, 94, 0.10)",
   },
 };
 

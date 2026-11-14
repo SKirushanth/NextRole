@@ -1,28 +1,52 @@
 @import "tailwindcss";
 
-/* ─── Global resets ─────────────────────────────────────────────────── */
+:root {
+  color: #172033;
+  background: #f6f8fb;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  background: #ffffff;
-  color: #171717;
+  min-width: 320px;
+  background: #f6f8fb;
+  color: #172033;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Light theme overrides for the existing utility classes. */
-[class*="bg-[#0A0A0A]"],
-[class*="bg-[#0F0F0F]"],
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+select,
+textarea {
+  color-scheme: light;
+}
+
+[class*="bg-[#0A0A0A]"] {
+  background-color: #f6f8fb !important;
+}
+
+[class*="bg-[#0F0F0F]"] {
+  background-color: #f8fafc !important;
+}
+
 [class*="bg-[#121212]"],
 [class*="bg-[#141414]"],
-[class*="bg-[#161616]"],
-[class*="bg-[#171717]"],
-[class*="bg-[#181818]"],
-[class*="bg-[#1A1A1A]"],
-[class*="bg-[#1C1C1C]"],
 [class*="bg-[#1C1C1E]"],
 [class*="bg-[#070D18]"],
 [class*="bg-[#0D1829]"],
@@ -30,23 +54,28 @@ body {
   background-color: #ffffff !important;
 }
 
+[class*="bg-[#161616]"],
+[class*="bg-[#171717]"],
+[class*="bg-[#181818]"],
+[class*="bg-[#1A1A1A]"],
+[class*="bg-[#1C1C1C]"] {
+  background-color: #f8fafc !important;
+}
+
+[class*="bg-zinc-800"],
+[class*="bg-gray-800"] {
+  background-color: #eef2ff !important;
+}
+
 [class*="text-[#FFFFFF]"],
 [class*="text-white"] {
-  color: #171717 !important;
+  color: #172033 !important;
 }
 
 [class*="text-[#0A0A0A]"],
 [class*="text-[#000000]"],
 [class*="text-black"] {
   color: #ffffff !important;
-}
-
-[class*="border-[#262626]"],
-[class*="border-[#333333]"],
-[class*="border-[#1C1C1C]"],
-[class*="border-[#1E2D42]"],
-[class*="border-zinc-800"] {
-  border-color: #e5e5e5 !important;
 }
 
 [class*="text-[#888888]"],
@@ -58,53 +87,147 @@ body {
 [class*="text-[#CCCCCC]"],
 [class*="text-gray-400"],
 [class*="text-gray-300"] {
-  color: #737373 !important;
+  color: #667085 !important;
 }
 
 [class*="placeholder-[#555555]"],
 [class*="placeholder-[#525252]"],
 [class*="placeholder-[#666666]"],
 [class*="placeholder-[#64748B]"] {
-  color: #a3a3a3 !important;
+  color: #98a2b3 !important;
 }
 
-[class*="bg-zinc-800"],
-[class*="bg-gray-800"] {
-  background-color: #f0f0f0 !important;
+[class*="border-[#262626]"],
+[class*="border-[#333333]"],
+[class*="border-[#1C1C1C]"],
+[class*="border-[#2A2A2A]"],
+[class*="border-[#3D3D3D]"],
+[class*="border-[#1E2D42]"],
+[class*="border-zinc-800"] {
+  border-color: #e4e7ec !important;
+}
+
+[class*="border-zinc-700"] {
+  border-color: #c7d2fe !important;
 }
 
 [class*="hover:bg-[#181818]"]:hover,
 [class*="hover:bg-[#1A1A1A]"]:hover,
 [class*="hover:bg-zinc-800"]:hover {
-  background-color: #f5f5f5 !important;
+  background-color: #f2f4f7 !important;
 }
 
-[class*="bg-[#1A1A1A]"],
-[class*="bg-[#161616]"] {
-  background-color: #fafafa !important;
+[class*="hover:border-[#333333]"]:hover,
+[class*="hover:border-[#3D3D3D]"]:hover {
+  border-color: #cbd5e1 !important;
+}
+
+[class*="shadow-2xl"],
+[class*="shadow-xl"],
+[class*="shadow-lg"] {
+  --tw-shadow: 0 12px 30px rgba(16, 24, 40, 0.08) !important;
+  box-shadow: var(--tw-shadow) !important;
+}
+
+[class*="rounded-xl"],
+[class*="rounded-2xl"] {
+  border-radius: 12px;
+}
+
+[class*="text-2xl"],
+[class*="text-xl"],
+[class*="text-lg"],
+[class*="font-mono"] {
+  font-variant-numeric: tabular-nums;
+}
+
+aside.w-64 {
+  width: 248px;
+  background: #ffffff !important;
+  border-right-color: #e4e7ec !important;
+  box-shadow: 8px 0 24px rgba(16, 24, 40, 0.03);
+}
+
+aside.w-64 nav button {
+  min-height: 42px;
+  border-color: transparent;
+}
+
+aside.w-64 nav button[class*="bg-zinc-800"] {
+  color: #4f46e5 !important;
+  background: #eef2ff !important;
+  border-color: #e0e7ff !important;
 }
 
 input,
 select,
 textarea {
-  color-scheme: light;
+  border-color: #d0d5dd !important;
+  background-color: #ffffff !important;
+  color: #172033 !important;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03);
 }
 
-svg text[fill="#FFFFFF"] {
-  fill: #171717;
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #818cf8 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12) !important;
 }
 
-/* ─── Custom scrollbar (no Tailwind equivalent) ──────────────────────── */
+article[class*="bg-[#141414]"],
+section[class*="bg-[#0F0F0F]"] {
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03);
+}
+
+article[class*="bg-[#141414]"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(16, 24, 40, 0.06);
+}
+
 .custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #262626;
+  background: #d0d5dd;
   border-radius: 999px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #444444;
+  background: #98a2b3;
+}
+
+@media (max-width: 767px) {
+  aside.w-64 {
+    width: 72px;
+    padding: 16px 10px;
+  }
+
+  aside.w-64 > div:first-child > div:first-child {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  aside.w-64 > div:first-child > div:first-child span,
+  aside.w-64 nav button:not([class*="bg-zinc-800"]) {
+    font-size: 0;
+  }
+
+  aside.w-64 nav button {
+    justify-content: center;
+    padding-inline: 10px;
+  }
+
+  aside.w-64 > div:last-child p {
+    overflow: hidden;
+  }
+
+  main {
+    padding: 20px !important;
+  }
 }

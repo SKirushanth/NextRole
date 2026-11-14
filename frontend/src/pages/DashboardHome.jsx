@@ -27,27 +27,27 @@ const LABELS = {
 
 const STATUS_CONFIG = {
   APPLIED: {
-    color: "#22C55E",
-    background: "rgba(34, 197, 94, 0.12)",
-    border: "rgba(34, 197, 94, 0.25)",
+    color: "#0284c7",
+    background: "rgba(14, 165, 233, 0.10)",
+    border: "rgba(14, 165, 233, 0.22)",
     icon: Send,
   },
   INTERVIEWING: {
-    color: "#3B82F6",
-    background: "rgba(59, 130, 246, 0.12)",
-    border: "rgba(59, 130, 246, 0.25)",
+    color: "#4f46e5",
+    background: "rgba(99, 102, 241, 0.10)",
+    border: "rgba(99, 102, 241, 0.22)",
     icon: Users,
   },
   OFFER: {
-    color: "#A855F7",
-    background: "rgba(168, 85, 247, 0.12)",
-    border: "rgba(168, 85, 247, 0.25)",
+    color: "#059669",
+    background: "rgba(16, 185, 129, 0.10)",
+    border: "rgba(16, 185, 129, 0.22)",
     icon: Gift,
   },
   REJECTED: {
-    color: "#EF4444",
-    background: "rgba(239, 68, 68, 0.12)",
-    border: "rgba(239, 68, 68, 0.25)",
+    color: "#e11d48",
+    background: "rgba(244, 63, 94, 0.10)",
+    border: "rgba(244, 63, 94, 0.22)",
     icon: XCircle,
   },
 };
@@ -119,13 +119,13 @@ export default function DashboardHome({ user, onNavigateToApps }) {
   ];
 
   return (
-    <div className="flex flex-col gap-5">
-      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-medium text-[#737373] uppercase tracking-[0.16em]">
+          <p className="text-[11px] font-semibold text-[#737373] uppercase tracking-[0.08em] mb-1">
             Overview
           </p>
-          <h1 className="text-2xl font-bold text-[#FFFFFF] tracking-tight mt-1">
+          <h1 className="text-2xl font-semibold text-[#FFFFFF] tracking-tight">
             Good day, {user?.email?.split("@")[0] || "User"}
           </h1>
         </div>
@@ -141,7 +141,7 @@ export default function DashboardHome({ user, onNavigateToApps }) {
           </div>
           <button
             onClick={onNavigateToApps}
-            className="bg-[#FFFFFF] text-[#0A0A0A] hover:bg-[#E5E5E5] text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-colors cursor-pointer"
+            className="bg-zinc-900 hover:bg-zinc-800 text-white text-[13px] font-medium px-3.5 py-2 rounded-lg flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>New application</span>
@@ -149,7 +149,7 @@ export default function DashboardHome({ user, onNavigateToApps }) {
         </div>
       </header>
 
-      <section className="grid grid-cols-2 xl:grid-cols-4 gap-3.5">
+      <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {STATUSES.map((status) => {
           const config = STATUS_CONFIG[status] || STATUS_CONFIG.APPLIED;
           const count = apps.filter((app) => app.status === status).length;
@@ -159,7 +159,7 @@ export default function DashboardHome({ user, onNavigateToApps }) {
           return (
             <div
               key={status}
-              className="relative overflow-hidden bg-[#121212] border border-[#262626] rounded-xl p-4 min-h-[132px] flex flex-col justify-between"
+              className="relative overflow-hidden bg-[#121212] border border-[#262626] rounded-xl p-5 min-h-[132px] flex flex-col justify-between shadow-sm"
             >
               <div
                 className="absolute top-0 left-0 right-0 h-0.5"

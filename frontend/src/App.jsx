@@ -45,7 +45,7 @@ export default function App() {
   if (!user) return <Login onLoggedIn={setUser} />;
 
   return (
-    <div className="flex min-h-screen bg-[#0A0A0A] text-[#FFFFFF] font-sans antialiased selection:bg-[#262626] selection:text-[#FFFFFF]">
+    <div className="flex min-h-screen bg-[#F4F4F5] text-zinc-950 font-sans antialiased selection:bg-indigo-500/20 selection:text-indigo-700">
       <Sidebar
         user={user}
         onLogout={logout}
@@ -54,7 +54,7 @@ export default function App() {
       />
 
       {/* Main Page Area */}
-      <main className="flex-1 min-w-0 p-6">
+      <main className="flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-6 max-w-[1440px] mx-auto w-full">
         {activeTab === "Dashboard" ? (
           <DashboardHome user={user} onNavigateToApps={() => setActiveTab("Applications")} />
         ) : (
