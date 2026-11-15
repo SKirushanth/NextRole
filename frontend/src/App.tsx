@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Board from "./pages/Board";
 import DashboardHome from "./pages/DashboardHome";
 import Sidebar from "./components/Sidebar";
+import InteractiveGridBackground from "./components/InteractiveGridBackground";
 import { Loader2 } from "lucide-react";
 import type { UserResponse } from "./types";
 
@@ -43,7 +44,13 @@ export default function App() {
     );
   }
 
-  if (!user) return <Login onLoggedIn={setUser} />;
+  if (!user) {
+    return (
+      <div className="animate-page-enter">
+        <Login onLoggedIn={setUser} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-[#F4F4F5] text-zinc-950 font-sans antialiased selection:bg-indigo-500/20 selection:text-indigo-700">
@@ -55,12 +62,15 @@ export default function App() {
       />
 
       {/* Main Page Area */}
-      <main className="flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-6 max-w-[1440px] mx-auto w-full">
-        {activeTab === "Dashboard" ? (
-          <DashboardHome user={user} onNavigateToApps={() => setActiveTab("Applications")} />
-        ) : (
-          <Board />
-        )}
+      <main className="relative flex-1 min-w-0 overflow-hidden px-4 sm:px-6 lg:px-8 py-6 max-w-[1440px] mx-auto w-full">
+        <InteractiveGridBackground width={40} height={40} radius={85} className="z-0" />
+        <div key={activeTab} className="relative z-10 animate-page-enter">
+          {activeTab === "Dashboard" ? (
+            <DashboardHome user={user} onNavigateToApps={() => setActiveTab("Applications")} />
+          ) : (
+            <Board />
+          )}
+        </div>
       </main>
     </div>
   );

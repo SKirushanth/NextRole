@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { api } from "../lib/api";
 import StatusDropdown from "./StatusDropdown";
-import { Building2, Briefcase, Link, Calendar, Plus, Loader2 } from "lucide-react";
+import DatePickerPro from "./DatePickerPro";
+import { Building2, Briefcase, Link, Plus, Loader2 } from "lucide-react";
 import type { ApplicationCreate, ApplicationStatus } from "../types";
 
 export interface ApplicationFormProps {
@@ -38,7 +39,6 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
     setBusy(true);
 
     try {
-      // Map datetime string or pass null if empty
       const payload: ApplicationCreate = {
         company_name: formData.company_name,
         job_title: formData.job_title,
@@ -60,24 +60,24 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
   };
 
   return (
-    <div className="w-full bg-[#121212] border border-[#262626] rounded-xl p-6 shadow-xl">
-      <div className="flex items-center gap-2 mb-6 text-white font-medium">
-        <Plus className="w-4 h-4 text-[#888888]" />
-        <h2>New Application</h2>
+    <div className="w-full bg-white border border-black/[0.08] rounded-2xl p-6 shadow-sm">
+      <div className="flex items-center gap-2 mb-5 text-zinc-950 font-semibold">
+        <Plus className="w-4 h-4 text-indigo-600" />
+        <h2 className="text-base tracking-tight">New Application</h2>
       </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-[#F87171]/10 border border-[#F87171]/30 rounded-lg text-xs text-[#F87171]">
+        <div className="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-600">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Company Input */}
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#888888]">Company *</label>
+          <label className="text-xs font-medium text-zinc-600">Company *</label>
           <div className="relative group">
-            <Building2 className="w-4 h-4 text-[#555555] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-300 group-hover:text-[#9D4EDD] group-focus-within:text-[#9D4EDD] group-focus-within:animate-pulse z-10" />
+            <Building2 className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-200 group-focus-within:text-indigo-600 z-10" />
             <input
               type="text"
               name="company_name"
@@ -86,16 +86,16 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
               onChange={handleChange}
               placeholder="e.g. Stripe"
               style={{ paddingLeft: "2.5rem" }}
-              className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg pr-3 py-2.5 text-sm text-white placeholder-[#555555] focus:outline-none focus:border-[#9D4EDD] focus:ring-1 focus:ring-[#9D4EDD] transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#9D4EDD]/20"
+              className="w-full bg-zinc-50 border border-black/[0.08] rounded-xl pr-3 py-2 text-xs text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
             />
           </div>
         </div>
 
         {/* Job Title Input */}
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#888888]">Job Title *</label>
+          <label className="text-xs font-medium text-zinc-600">Job Title *</label>
           <div className="relative group">
-            <Briefcase className="w-4 h-4 text-[#555555] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-300 group-hover:text-[#9D4EDD] group-focus-within:text-[#9D4EDD] group-focus-within:animate-pulse z-10" />
+            <Briefcase className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-200 group-focus-within:text-indigo-600 z-10" />
             <input
               type="text"
               name="job_title"
@@ -104,16 +104,16 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
               onChange={handleChange}
               placeholder="e.g. Senior Frontend Engineer"
               style={{ paddingLeft: "2.5rem" }}
-              className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg pr-3 py-2.5 text-sm text-white placeholder-[#555555] focus:outline-none focus:border-[#9D4EDD] focus:ring-1 focus:ring-[#9D4EDD] transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#9D4EDD]/20"
+              className="w-full bg-zinc-50 border border-black/[0.08] rounded-xl pr-3 py-2 text-xs text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
             />
           </div>
         </div>
 
         {/* Job URL Input */}
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#888888]">Job URL</label>
+          <label className="text-xs font-medium text-zinc-600">Job URL</label>
           <div className="relative group">
-            <Link className="w-4 h-4 text-[#555555] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-300 group-hover:text-[#9D4EDD] group-focus-within:text-[#9D4EDD] group-focus-within:animate-pulse z-10" />
+            <Link className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-200 group-focus-within:text-indigo-600 z-10" />
             <input
               type="url"
               name="job_url"
@@ -121,44 +121,45 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
               onChange={handleChange}
               placeholder="https://..."
               style={{ paddingLeft: "2.5rem" }}
-              className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg pr-3 py-2.5 text-sm text-white placeholder-[#555555] focus:outline-none focus:border-[#9D4EDD] focus:ring-1 focus:ring-[#9D4EDD] transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#9D4EDD]/20"
+              className="w-full bg-zinc-50 border border-black/[0.08] rounded-xl pr-3 py-2 text-xs text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
             />
           </div>
         </div>
 
         {/* Status Select */}
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#888888]">Status</label>
+          <label className="text-xs font-medium text-zinc-600">Status</label>
           <StatusDropdown
             value={formData.status}
             onChange={(newStatus) =>
               setFormData((prev) => ({ ...prev, status: newStatus }))
             }
-            theme="dark"
+            theme="light"
           />
         </div>
 
         {/* Interview Date Input */}
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#888888]">Interview Date</label>
-          <div className="relative group">
-            <Calendar className="w-4 h-4 text-[#555555] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-300 group-hover:text-[#9D4EDD] group-focus-within:text-[#9D4EDD] group-focus-within:animate-pulse z-10" />
-            <input
-              type="text"
-              name="interview_date"
-              value={formData.interview_date}
-              onChange={handleChange}
-              onFocus={(e) => {
-                e.target.type = "datetime-local";
-              }}
-              onBlur={(e) => {
-                if (!e.target.value) e.target.type = "text";
-              }}
-              placeholder="Select date & time..."
-              style={{ paddingLeft: "2.5rem", colorScheme: "light" }}
-              className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg pr-3 py-2.5 text-sm text-white placeholder-[#555555] focus:outline-none focus:border-[#9D4EDD] focus:ring-1 focus:ring-[#9D4EDD] transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#9D4EDD]/20 cursor-pointer"
-            />
-          </div>
+          <label className="text-xs font-medium text-zinc-600">Interview Date</label>
+          <DatePickerPro
+            value={formData.interview_date ? new Date(formData.interview_date) : null}
+            onChange={(date) => {
+              if (!date) {
+                setFormData((prev) => ({ ...prev, interview_date: "" }));
+                return;
+              }
+              const yr = date.getFullYear();
+              const mo = String(date.getMonth() + 1).padStart(2, "0");
+              const da = String(date.getDate()).padStart(2, "0");
+              const hr = String(date.getHours()).padStart(2, "0");
+              const mi = String(date.getMinutes()).padStart(2, "0");
+              setFormData((prev) => ({
+                ...prev,
+                interview_date: `${yr}-${mo}-${da}T${hr}:${mi}`,
+              }));
+            }}
+            placeholder="dd/mm/yyyy --:--"
+          />
         </div>
 
         {/* Submit Button */}
@@ -166,10 +167,10 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
           <button
             type="submit"
             disabled={busy}
-            className="w-full bg-white text-black font-semibold py-2.5 rounded-lg text-sm flex items-center justify-center gap-2 transition-transform duration-300 ease-in-out hover:scale-[1.02] active:scale-[0.98] cursor-pointer shadow-md disabled:opacity-50"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-sm shadow-indigo-600/20 active:scale-95 cursor-pointer disabled:opacity-50"
           >
             {busy ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin text-white" />
             ) : (
               <>
                 <Plus className="w-4 h-4" />

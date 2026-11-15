@@ -7,7 +7,6 @@ import {
   ChevronRight,
   Eye,
   EyeOff,
-  ImagePlus,
   Lock,
   Mail,
   Loader2,
@@ -231,16 +230,12 @@ export default function Login({ onLoggedIn }: LoginProps) {
           <header className="relative z-10 flex items-center justify-between">
             <StrokeText
               text="NextRole"
-              fontSize={30}
+              fontSize={42}
               strokeColor="#71717A"
               fillColor="#09090B"
               strokeWidth={1.2}
-              className="h-9"
+              className="-ml-4 h-12 [&>svg]:h-12"
             />
-            <div className="hidden items-center gap-2 text-[10px] font-medium text-zinc-400 sm:flex">
-              <ImagePlus className="h-3.5 w-3.5" />
-              <span>Your career, organized</span>
-            </div>
           </header>
 
           <div className="relative z-10 my-auto mx-auto w-full max-w-[410px] py-10">
@@ -333,7 +328,6 @@ export default function Login({ onLoggedIn }: LoginProps) {
             className="relative h-full min-h-[680px] w-full overflow-hidden rounded-[28px] border border-zinc-200/90 bg-zinc-50/90 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.08)]"
           >
             <div className="relative flex h-full w-full flex-col justify-between overflow-hidden p-12">
-              <div className="flex justify-end text-xs font-medium tracking-wider text-zinc-400">0{currentSlide + 1} / 0{SLIDES.length}</div>
               <div className="relative my-4 flex-1">
                 {SLIDES.map((slide, index) => (
                   <article key={slide.titleLine1} className={`absolute inset-0 flex h-full flex-col justify-between transition-all duration-700 ${index === currentSlide ? "visible z-10 translate-y-0 opacity-100" : "invisible z-0 translate-y-4 opacity-0"}`}>
