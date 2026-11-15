@@ -203,7 +203,7 @@ export default function Board() {
 
       {/* New Application Form Container */}
       {showForm && (
-        <div className="bg-white border border-black/[0.07] rounded-2xl p-6 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.02)]">
+        <div className="bg-white border border-black/[0.07] rounded-2xl p-6 transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.03),0_4px_12px_rgba(0,0,0,0.02)] hover:border-indigo-300/70 hover:shadow-[0_0_0_3px_rgba(99,102,241,0.10),0_4px_12px_rgba(0,0,0,0.02)]">
           <ApplicationForm
             onCreated={() => {
               setShowForm(false);
@@ -405,6 +405,7 @@ export default function Board() {
                             value={a.status}
                             onChange={(newStatus) => move(a, newStatus)}
                             theme="light"
+                            className="board-card-status"
                           />
                         </div>
                       </article>

@@ -290,7 +290,7 @@ export function DatePickerPro({
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
         aria-haspopup="dialog"
-        className="w-full h-10 px-3.5 rounded-xl border border-gray-300 bg-white hover:bg-gray-50/80 shadow-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 flex items-center justify-between text-left transition-all duration-150 cursor-pointer"
+        className="w-full h-10 px-3.5 rounded-xl border border-gray-300 bg-white hover:bg-gray-50/80 hover:border-indigo-400 hover:ring-2 hover:ring-indigo-500/10 shadow-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 flex items-center justify-between text-left transition-all duration-150 cursor-pointer"
       >
         <span
           className={`text-[13px] font-medium truncate ${

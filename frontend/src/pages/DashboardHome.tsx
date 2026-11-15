@@ -465,7 +465,7 @@ export default function DashboardHome({ user, onNavigateToApps }: DashboardHomeP
                 <button
                   type="submit"
                   disabled={quickSaving}
-                  className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-zinc-900 hover:bg-zinc-800 text-white shadow-sm transition-colors cursor-pointer disabled:opacity-50"
+                  className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm shadow-indigo-600/20 transition-colors cursor-pointer disabled:opacity-50"
                 >
                   {quickSaving ? "..." : "Log"}
                 </button>

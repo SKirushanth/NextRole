@@ -4,6 +4,7 @@ import { api } from "../lib/api";
 import { fromLocalInput, toLocalInput } from "../lib/dates";
 import StatusDropdown from "./StatusDropdown";
 import DatePickerPro from "./DatePickerPro";
+import DeleteConfirmation from "./DeleteConfirmation";
 import {
   X,
   ExternalLink,
@@ -40,6 +41,8 @@ export default function ApplicationDetail({
   const [interviewDate, setInterviewDate] = useState<string>(original.interviewDate);
   const [error, setError] = useState<string>("");
   const [busy, setBusy] = useState<boolean>(false);
+  const [deleting, setDeleting] = useState<boolean>(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
   const closeTimerRef = useRef<number | null>(null);
   const isClosingRef = useRef<boolean>(false);
@@ -54,7 +57,12 @@ export default function ApplicationDetail({
     document.body.style.overflow = "hidden";
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") close();
+      if (event.key !== "Escape") return;
+      if (showDeleteConfirm) {
+        setShowDeleteConfirm(false);
+        return;
+      }
+      close();
     }
 
     window.addEventListener("keydown", handleKeyDown);
@@ -65,7 +73,7 @@ export default function ApplicationDetail({
       }
       document.body.style.overflow = previousOverflow;
     };
-  }, []);
+  }, [showDeleteConfirm]);
 
   function close() {
     if (isClosingRef.current) return;
@@ -93,14 +101,21 @@ export default function ApplicationDetail({
     }
   }
 
-  async function remove() {
-    if (!window.confirm(`Delete ${application.company_name} – ${application.job_title}?`)) return;
+  function remove() {
+    setShowDeleteConfirm(true);
+  }
+
+  async function confirmRemove() {
+    setDeleting(true);
     try {
       await api.deleteApplication(application.id);
+      setShowDeleteConfirm(false);
       onChanged();
       close();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to delete application");
+    } finally {
+      setDeleting(false);
     }
   }
 
@@ -261,6 +276,12 @@ export default function ApplicationDetail({
           </button>
         </div>
       </div>
+      <DeleteConfirmation
+        open={showDeleteConfirm}
+        busy={deleting}
+        onCancel={() => setShowDeleteConfirm(false)}
+        onConfirm={confirmRemove}
+      />
     </div>,
     document.body
   );

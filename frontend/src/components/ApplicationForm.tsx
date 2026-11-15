@@ -60,7 +60,7 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
   };
 
   return (
-    <div className="w-full bg-white border border-black/[0.08] rounded-2xl p-6 shadow-sm">
+    <div className="w-full">
       <div className="flex items-center gap-2 mb-5 text-zinc-950 font-semibold">
         <Plus className="w-4 h-4 text-indigo-600" />
         <h2 className="text-base tracking-tight">New Application</h2>
@@ -77,7 +77,7 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
         <div className="space-y-1.5">
           <label className="text-xs font-medium text-zinc-600">Company *</label>
           <div className="relative group">
-            <Building2 className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-200 group-focus-within:text-indigo-600 z-10" />
+            <Building2 className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-200 group-hover:text-indigo-600 group-focus-within:text-indigo-600 z-10" />
             <input
               type="text"
               name="company_name"
@@ -86,7 +86,7 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
               onChange={handleChange}
               placeholder="e.g. Stripe"
               style={{ paddingLeft: "2.5rem" }}
-              className="w-full bg-zinc-50 border border-black/[0.08] rounded-xl pr-3 py-2 text-xs text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+              className="w-full bg-zinc-50 border border-black/[0.08] rounded-xl pr-3 py-2 text-xs text-zinc-950 placeholder:text-zinc-400 hover:border-indigo-400 hover:ring-2 hover:ring-indigo-500/10 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
             />
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
         <div className="space-y-1.5">
           <label className="text-xs font-medium text-zinc-600">Job Title *</label>
           <div className="relative group">
-            <Briefcase className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-200 group-focus-within:text-indigo-600 z-10" />
+            <Briefcase className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-200 group-hover:text-indigo-600 group-focus-within:text-indigo-600 z-10" />
             <input
               type="text"
               name="job_title"
@@ -104,7 +104,7 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
               onChange={handleChange}
               placeholder="e.g. Senior Frontend Engineer"
               style={{ paddingLeft: "2.5rem" }}
-              className="w-full bg-zinc-50 border border-black/[0.08] rounded-xl pr-3 py-2 text-xs text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+              className="w-full bg-zinc-50 border border-black/[0.08] rounded-xl pr-3 py-2 text-xs text-zinc-950 placeholder:text-zinc-400 hover:border-indigo-400 hover:ring-2 hover:ring-indigo-500/10 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
             />
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
         <div className="space-y-1.5">
           <label className="text-xs font-medium text-zinc-600">Job URL</label>
           <div className="relative group">
-            <Link className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-200 group-focus-within:text-indigo-600 z-10" />
+            <Link className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-200 group-hover:text-indigo-600 group-focus-within:text-indigo-600 z-10" />
             <input
               type="url"
               name="job_url"
@@ -121,7 +121,7 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
               onChange={handleChange}
               placeholder="https://..."
               style={{ paddingLeft: "2.5rem" }}
-              className="w-full bg-zinc-50 border border-black/[0.08] rounded-xl pr-3 py-2 text-xs text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+              className="w-full bg-zinc-50 border border-black/[0.08] rounded-xl pr-3 py-2 text-xs text-zinc-950 placeholder:text-zinc-400 hover:border-indigo-400 hover:ring-2 hover:ring-indigo-500/10 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
             />
           </div>
         </div>

@@ -227,35 +227,17 @@ export default function Login({ onLoggedIn }: LoginProps) {
           style={{ backgroundImage: "radial-gradient(#e4e4e7 1px, transparent 1px)", backgroundSize: "24px 24px" }}
         >
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,#ffffff_85%)]" />
-          <header className="relative z-10 flex items-center justify-between">
+          <div className="relative z-10 my-auto mx-auto flex w-full max-w-[410px] flex-col items-center py-10">
             <StrokeText
               text="NextRole"
-              fontSize={42}
+              fontSize={46.2}
               strokeColor="#71717A"
               fillColor="#09090B"
               strokeWidth={1.2}
-              className="-ml-4 h-12 [&>svg]:h-12"
+              className="mb-5 h-[3.3rem] [&>svg]:h-[3.3rem]"
             />
-          </header>
 
-          <div className="relative z-10 my-auto mx-auto w-full max-w-[410px] py-10">
-            <div className="mb-6 h-[1.5px] w-24 bg-gradient-to-r from-sky-500/80 via-indigo-500/60 to-transparent" />
-            <div className="mb-6 grid grid-cols-2 rounded-xl border border-zinc-200/80 bg-zinc-100 p-1">
-              {(["login", "register"] as const).map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => changeMode(item)}
-                  className={`rounded-lg py-2 text-xs font-semibold transition-all ${
-                    mode === item ? "bg-white text-zinc-950 shadow-sm" : "text-zinc-500 hover:text-zinc-800"
-                  }`}
-                >
-                  {item === "login" ? "Sign in" : "Register"}
-                </button>
-              ))}
-            </div>
-
-            <div className="mb-7">
+            <div className="mb-7 w-full text-center">
               <h1 className="text-2xl font-bold tracking-tight text-zinc-950 sm:text-3xl">
                 {mode === "register" ? "Register" : "Sign in"}
               </h1>
@@ -273,7 +255,7 @@ export default function Login({ onLoggedIn }: LoginProps) {
               </div>
             )}
 
-            <form onSubmit={submit} className="space-y-4">
+            <form onSubmit={submit} className="w-full space-y-4">
               <div className="space-y-1.5">
                 <label htmlFor="email" className="block text-xs font-medium text-zinc-700">Email Address</label>
                 <InputWrapper>
@@ -313,7 +295,7 @@ export default function Login({ onLoggedIn }: LoginProps) {
             </p>
           </div>
 
-          <footer className="relative z-10 flex items-center justify-between text-[11px] text-zinc-400">
+          <footer className="relative z-10 flex items-center justify-center gap-4 text-[11px] text-zinc-400">
             <span>© 2026 NextRole Inc.</span>
             <div className="flex gap-4"><a href="#privacy" className="hover:text-zinc-700">Privacy</a><a href="#terms" className="hover:text-zinc-700">Terms</a></div>
           </footer>
