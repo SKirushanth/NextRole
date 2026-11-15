@@ -158,7 +158,7 @@ export default function ApplicationForm({ onCreated, onSubmit }: ApplicationForm
                 interview_date: `${yr}-${mo}-${da}T${hr}:${mi}`,
               }));
             }}
-            placeholder="dd/mm/yyyy --:--"
+            placeholder="Pick a date"
           />
         </div>
 
