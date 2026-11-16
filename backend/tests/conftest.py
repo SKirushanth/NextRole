@@ -3,6 +3,7 @@ import os
 # Must be set BEFORE the app is imported so tests use SQLite instead of PostgreSQL.
 os.environ["DATABASE_URL"] = "sqlite:///./test.db"
 os.environ["SECRET_KEY"] = "test-secret-key-that-is-at-least-32-bytes-long"
+os.environ["RATE_LIMIT_ENABLED"] = "false"
 
 import pytest
 from fastapi.testclient import TestClient

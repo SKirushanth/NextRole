@@ -3,8 +3,12 @@ import time
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+
 from .config import settings
 from .database import engine, Base
+from .limiter import limiter
 from .routers import applications, auth
 
 logger = logging.getLogger(__name__)
@@ -37,7 +41,19 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title=settings.PROJECT_NAME, lifespan=lifespan)
+docs_url = "/docs" if settings.ENABLE_DOCS else None
+redoc_url = "/redoc" if settings.ENABLE_DOCS else None
+openapi_url = "/openapi.json" if settings.ENABLE_DOCS else None
+
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    lifespan=lifespan,
+    docs_url=docs_url,
+    redoc_url=redoc_url,
+    openapi_url=openapi_url,
+)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Wildcard origins can't be combined with credentials in browsers, so use an explicit list.
 app.add_middleware(

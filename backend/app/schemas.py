@@ -5,11 +5,10 @@ from .models import ApplicationStatus
 
 # --- User Schemas ---
 class UserBase(BaseModel):
-    email: EmailStr
+    email: EmailStr = Field(max_length=254)
 
 class UserCreate(UserBase):
-    # bcrypt only uses the first 72 bytes, so cap the length
-    password: str = Field(min_length=8, max_length=72)
+    password: str = Field(min_length=8, max_length=128)
 
 class UserResponse(UserBase):
     id: int
@@ -24,10 +23,10 @@ class Token(BaseModel):
 
 # --- Application Schemas ---
 class ApplicationBase(BaseModel):
-    company_name: str
-    job_title: str
-    job_url: Optional[str] = None
-    notes: Optional[str] = None
+    company_name: str = Field(min_length=1, max_length=100)
+    job_title: str = Field(min_length=1, max_length=100)
+    job_url: Optional[str] = Field(default=None, max_length=2048)
+    notes: Optional[str] = Field(default=None, max_length=5000)
     status: Optional[ApplicationStatus] = ApplicationStatus.APPLIED
     interview_date: Optional[datetime] = None
 
@@ -35,10 +34,10 @@ class ApplicationCreate(ApplicationBase):
     pass
 
 class ApplicationUpdate(BaseModel):
-    company_name: Optional[str] = None
-    job_title: Optional[str] = None
-    job_url: Optional[str] = None
-    notes: Optional[str] = None
+    company_name: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    job_title: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    job_url: Optional[str] = Field(default=None, max_length=2048)
+    notes: Optional[str] = Field(default=None, max_length=5000)
     status: Optional[ApplicationStatus] = None
     interview_date: Optional[datetime] = None
 
